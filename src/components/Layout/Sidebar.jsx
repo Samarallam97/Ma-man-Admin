@@ -9,7 +9,8 @@ import {
   FiFolder, 
   FiSettings, 
   FiMenu, 
-  FiX 
+  FiX ,
+  FiUsers 
 } from 'react-icons/fi'
 
 const Sidebar = () => {
@@ -43,10 +44,10 @@ const Sidebar = () => {
       path: '/category' 
     },
     { 
-      name: t('settings'), 
-      icon: <FiSettings className="w-5 h-5" />,
-      path: '/settings' 
-    },
+      name: t('user'), 
+      icon: <FiUsers className="w-5 h-5" />,
+      path: '/user' 
+    }
   ]
   
   const sidebarClasses = `fixed inset-y-0 ${dir === 'rtl' ? 'right-0' : 'left-0'} w-64 bg-primary-700 dark:bg-gray-800 z-10 transition-all transform ${
