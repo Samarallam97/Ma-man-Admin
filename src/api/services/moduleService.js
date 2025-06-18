@@ -2,7 +2,8 @@ import apiClient from '../client'
 
 export const moduleService = {
   getAll: async () => {
-    const response = await apiClient.get('/modules')
+    const response = await apiClient.get(`/modules`)
+    
     return response.data
   },
   
@@ -12,7 +13,9 @@ export const moduleService = {
   },
   
   create: async (module) => {
+    
     const response = await apiClient.post('/modules', module)
+    
     return response.data
   },
   

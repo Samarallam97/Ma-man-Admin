@@ -5,6 +5,8 @@ import { FiFile, FiBox, FiFolder, FiBarChart2 } from 'react-icons/fi'
 import { contentService } from '../../api/services/contentService'
 import { moduleService } from '../../api/services/moduleService'
 import { categoryService } from '../../api/services/categoryService'
+import { ageGroupService } from '../../api/services/ageGroupService'
+
 
 const Dashboard = () => {
   const { t } = useTranslation()
@@ -20,24 +22,19 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const [contents, modules, categories] = await Promise.all([
+        const [contents, modules, categories , ageGroups] = await Promise.all([
           contentService.getAll(),
           moduleService.getAll(),
-          categoryService.getAll()
+          categoryService.getAll(),
+          ageGroupService.getAll()
         ])
         
-        // Calculate stats
-        const activeContents = contents.filter(c => c.status === 'active')
-        const inactiveContents = contents.filter(c => c.status === 'inactive')
-        
         setStats({
-          contents: {
-            total: contents.length,
-            active: activeContents.length,
-            inactive: inactiveContents.length
-          },
-          modules: { total: modules.length },
-          categories: { total: categories.length }
+          contents: { total: contents.count},
+          modules: { total: modules.count },
+          categories: { total: categories.count },
+          ageGroups: { total: ageGroups.count }
+
         })
         
         // Get recent contents (sorted by createdAt)
@@ -119,6 +116,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
+            
             
             <div className="card bg-gradient-to-br from-primary-600 to-secondary-600 text-white p-6">
               <div className="flex items-center justify-between">

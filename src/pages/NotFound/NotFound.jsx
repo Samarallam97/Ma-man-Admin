@@ -21,7 +21,7 @@ const NotFound = () => {
         
         <div className="mt-8">
           <Link
-            to="/"
+            to="/dashboard"
             className="btn btn-primary px-8 py-3"
           >
             {t('home')}

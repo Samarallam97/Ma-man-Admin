@@ -47,6 +47,11 @@ const Sidebar = () => {
       name: t('user'), 
       icon: <FiUsers className="w-5 h-5" />,
       path: '/user' 
+    },
+    { 
+      name: t('ageGroup'), 
+      icon: <FiUsers className="w-5 h-5" />,
+      path: '/ageGroup' 
     }
   ]
   

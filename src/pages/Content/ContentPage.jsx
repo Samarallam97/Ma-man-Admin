@@ -24,9 +24,10 @@ const ContentPage = () => {
         moduleService.getAll()
       ])
       
+      
       // Enrich content data with module names
-      const enrichedContents = contentsData.map(content => {
-        const module = modulesData.find(m => m.id === content.moduleId)
+      const enrichedContents = contentsData.data.map(content => {
+        const module = modulesData.data.find(m => m.id === content.moduleId)
         return {
           ...content,
           moduleName: module ? module.name : 'Unknown'
@@ -34,6 +35,7 @@ const ContentPage = () => {
       })
       
       setContents(enrichedContents)
+      
       setModules(modulesData)
     } catch (error) {
       console.error('Error fetching contents:', error)
@@ -74,21 +76,24 @@ const ContentPage = () => {
   
   // Table columns
   const columns = [
-    { key: 'title', header: 'title' },
+    { key: 'type', header: 'type' },
+    { key: 'contentUrl', header: 'contentUrl' },
     { key: 'moduleName', header: 'module' },
-    { 
-      key: 'status', 
-      header: 'status',
-      render: (item) => (
-        <span className={`px-2 py-1 text-xs rounded-full ${
-          item.status === 'active'
-            ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-            : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-        }`}>
-          {t(item.status)}
-        </span>
-      )
-    },
+    { key: 'title', header: 'title' },
+    { key: 'description', header: 'description' },
+    // { 
+    //   key: 'status', 
+    //   header: 'status',
+    //   render: (item) => (
+    //     <span className={`px-2 py-1 text-xs rounded-full ${
+    //       item.status === 'active'
+    //         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+    //         : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+    //     }`}>
+    //       {t(item.status)}
+    //     </span>
+    //   )
+    // },
     { 
       key: 'createdAt', 
       header: 'createdAt',

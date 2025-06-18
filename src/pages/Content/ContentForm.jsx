@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { FiArrowLeft } from 'react-icons/fi'
 import { contentService } from '../../api/services/contentService'
-import { moduleService } from '../../api/services/moduleService'
+import { moduleService } from '../../api/services/moduleService.js'
 
 const ContentForm = () => {
   const { t } = useTranslation()
@@ -137,11 +137,18 @@ const ContentForm = () => {
                 {...register('moduleId', { required: true })}
               >
                 <option value="">{t('selectModule')}</option>
-                {modules.map((module) => (
+                {/* {modules.map((module) => (
                   <option key={module.id} value={module.id}>
                     {module.name}
                   </option>
-                ))}
+                ))} */}
+
+                   <option  value="Space">
+                    Space
+                  </option>
+                 <option  value="Summition">
+                    Summition
+                  </option>
               </select>
               {errors.moduleId && (
                 <p className="mt-1 text-sm text-error-500">

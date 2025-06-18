@@ -25,15 +25,18 @@ const ModulePage = () => {
       ])
       
       // Ensure modulesData is an array
-      const modulesArray = Array.isArray(modulesData) ? modulesData : []
-      const categoriesArray = Array.isArray(categoriesData) ? categoriesData : []
+      const modulesArray = Array.isArray(modulesData.data) ? modulesData.data : []
+      
+      
+      const categoriesArray = Array.isArray(categoriesData.data) ? categoriesData.data : []
       
       // Enrich module data with category names
       const enrichedModules = modulesArray.map(module => {
         const category = categoriesArray.find(c => c.id === module.categoryId)
         return {
           ...module,
-          categoryName: category ? category.name : 'Unknown'
+          categoryName: category ? category.name : 'Unknown',
+          admin: module.createdByAdminId ? module.createdByAdminId : 'Unknown'
         }
       })
       
@@ -80,12 +83,12 @@ const ModulePage = () => {
   // Table columns
   const columns = [
     { key: 'name', header: 'name' },
+    { key: 'description', header: 'description' },
     { key: 'categoryName', header: 'category' },
-    { 
-      key: 'createdAt', 
-      header: 'createdAt',
-      render: (item) => formatDate(item.createdAt)
-    }
+    { key: 'averageRating', header: 'averageRating' },
+    { key: 'color', header: 'color' },
+    { key: 'picutureUrl', header: 'picutureUrl' },
+    { key: 'adminName', header: 'admin' },
   ]
   
   return (

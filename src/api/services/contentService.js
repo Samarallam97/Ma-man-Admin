@@ -1,28 +1,28 @@
-import apiClient from '../client'
+import api from '../client'
 
 export const contentService = {
   getAll: async () => {
-    const response = await apiClient.get('/contents')
+    const response = await api.get('/content')
     return response.data
   },
   
   getById: async (id) => {
-    const response = await apiClient.get(`/contents/${id}`)
+    const response = await api.get(`/content/${id}`)
     return response.data
   },
   
   create: async (content) => {
-    const response = await apiClient.post('/contents', content)
+    const response = await api.post('/content', content)
     return response.data
   },
   
   update: async (id, content) => {
-    const response = await apiClient.put(`/contents/${id}`, content)
+    const response = await api.put(`/content/${id}`, content)
     return response.data
   },
   
   delete: async (id) => {
-    await apiClient.delete(`/contents/${id}`)
+    await api.delete(`/content/${id}`)
     return true
   }
 }

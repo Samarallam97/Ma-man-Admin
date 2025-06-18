@@ -15,22 +15,24 @@ const ModuleForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [categories, setCategories] = useState([])
-  
-  const { register, handleSubmit, formState: { errors }, reset } = useForm()
-  
+
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm()
+
+  const userId = localStorage.getItem('userId') // or get from context
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        
-        // Fetch categories for the dropdown
         const categoriesData = await categoryService.getAll()
-        setCategories(categoriesData)
-        
-        // If edit mode, fetch the module data
+        setCategories(categoriesData.data)
+
         if (isEditMode) {
           const module = await moduleService.getById(id)
           reset(module)
+        } else {
+          setValue('averageRating', 0)
+          setValue('createdByAdminId', userId)
         }
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -40,24 +42,26 @@ const ModuleForm = () => {
         setIsLoading(false)
       }
     }
-    
+
     fetchData()
-  }, [id, isEditMode, navigate, reset, t])
-  
+  }, [id, isEditMode, navigate, reset, t, userId, setValue])
+
   const onSubmit = async (data) => {
     try {
       setIsSubmitting(true)
-      // Convert categoryId to number
-      data.categoryId = Number(data.categoryId)
-      
+      // data.categoryId = Number(data.categoryId)
+      data.averageRating = data.averageRating || 0
+      data.createdByAdminId = userId
+
       if (isEditMode) {
         await moduleService.update(id, data)
         toast.success(t('successUpdate'))
       } else {
+        
         await moduleService.create(data)
         toast.success(t('successAdd'))
       }
-      
+
       navigate('/module')
     } catch (error) {
       console.error('Error saving module:', error)
@@ -66,7 +70,7 @@ const ModuleForm = () => {
       setIsSubmitting(false)
     }
   }
-  
+
   return (
     <div>
       <div className="flex items-center mb-6">
@@ -81,7 +85,7 @@ const ModuleForm = () => {
           {isEditMode ? t('editModule') : t('addModule')}
         </h1>
       </div>
-      
+
       {isLoading ? (
         <div className="text-center py-10">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
@@ -90,30 +94,51 @@ const ModuleForm = () => {
       ) : (
         <div className="card p-6">
           <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Required Fields */}
             <div className="mb-4">
-              <label htmlFor="name" className="form-label">
-                {t('name')}
-              </label>
+              <label htmlFor="name" className="form-label">{t('name')}</label>
               <input
                 id="name"
                 type="text"
-                className={`form-input ${errors.name ? 'border-error-500 focus:ring-error-500' : ''}`}
+                className={`form-input ${errors.name ? 'border-error-500' : ''}`}
                 {...register('name', { required: true })}
               />
-              {errors.name && (
-                <p className="mt-1 text-sm text-error-500">
-                  {t('required')}
-                </p>
-              )}
+              {errors.name && <p className="text-sm text-error-500">{t('required')}</p>}
             </div>
-            
+
             <div className="mb-4">
-              <label htmlFor="categoryId" className="form-label">
-                {t('selectCategory')}
-              </label>
+              <label htmlFor="nameAr" className="form-label">{t('nameAr')}</label>
+              <input
+                id="nameAr"
+                type="text"
+                className="form-input"
+                {...register('nameAr')}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="description" className="form-label">{t('description')}</label>
+              <textarea
+                id="description"
+                className="form-input"
+                {...register('description')}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="descriptionAr" className="form-label">{t('descriptionAr')}</label>
+              <textarea
+                id="descriptionAr"
+                className="form-input"
+                {...register('descriptionAr')}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="categoryId" className="form-label">{t('selectCategory')}</label>
               <select
                 id="categoryId"
-                className={`form-input ${errors.categoryId ? 'border-error-500 focus:ring-error-500' : ''}`}
+                className={`form-input ${errors.categoryId ? 'border-error-500' : ''}`}
                 {...register('categoryId', { required: true })}
               >
                 <option value="">{t('selectCategory')}</option>
@@ -123,13 +148,34 @@ const ModuleForm = () => {
                   </option>
                 ))}
               </select>
-              {errors.categoryId && (
-                <p className="mt-1 text-sm text-error-500">
-                  {t('required')}
-                </p>
-              )}
+              {errors.categoryId && <p className="text-sm text-error-500">{t('required')}</p>}
             </div>
-            
+
+            {/* Additional Fields */}
+            <div className="mb-4">
+              <label htmlFor="color" className="form-label">{t('color')}</label>
+              <input
+                id="color"
+                type="text"
+                className="form-input"
+                {...register('color')}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="pictureUrl" className="form-label">{t('pictureUrl')}</label>
+              <input
+                id="pictureUrl"
+                type="text"
+                className="form-input"
+                {...register('picutureUrl')}
+              />
+            </div>
+
+            {/* Hidden Fields */}
+            <input type="hidden" {...register('averageRating')} />
+            <input type="hidden" {...register('createdByAdminId')} />
+
             <div className="flex justify-end space-x-3 mt-6">
               <button
                 type="button"

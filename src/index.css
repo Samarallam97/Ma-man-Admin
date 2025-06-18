@@ -2,24 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+
 :root {
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  --spacing-5: 48px;
+  --spacing-6: 64px;
+  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+.app {
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.app.light {
+  --primary-color: #4a90e2;
+  --primary-light: #6ba5e9;
+  --primary-dark: #357abd;
+  --secondary-color: #f0f7ff;
+  --text-color: #2c3e50;
+  --text-secondary: #7f8c8d;
+  --background-color: #ffffff;
+  --card-background: #f8fbff;
+  --border-color: #e3f0ff;
+  --shadow-color: rgba(74, 144, 226, 0.15);
+  
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.app.dark {
+  --primary-color: #6ba5e9;
+  --primary-light: #8cbbef;
+  --primary-dark: #4a90e2;
+  --secondary-color: #2c3e50;
+  --text-color: #f0f7ff;
+  --text-secondary: #bdc3c7;
+  --background-color: #1a2634;
+  --card-background: #2c3e50;
+  --border-color: #4a90e2;
+  --shadow-color: rgba(107, 165, 233, 0.2);
+  
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 body {
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-/* Transition effects */
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
 }
 
 /* RTL Support */
@@ -83,3 +128,5 @@ body {
 .card {
   @apply bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all;
 }
+
+

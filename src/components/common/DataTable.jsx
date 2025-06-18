@@ -9,6 +9,7 @@ const DataTable = ({ data = [], columns, onEdit, onDelete, isLoading }) => {
   // Ensure data is an array
   const safeData = Array.isArray(data) ? data : []
   
+  
   // Filter data based on search term
   const filteredData = searchTerm
     ? safeData.filter(item => 

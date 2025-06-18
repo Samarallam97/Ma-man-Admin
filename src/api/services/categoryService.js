@@ -1,28 +1,30 @@
-import apiClient from '../client'
+import api from '../client'
 
 export const categoryService = {
   getAll: async () => {
-    const response = await apiClient.get('/categories')
+    const response = await api.get('/categories')
+    
     return response.data
   },
   
   getById: async (id) => {
-    const response = await apiClient.get(`/categories/${id}`)
+    const response = await api.get(`/categories/${id}`)
+    
     return response.data
   },
   
   create: async (category) => {
-    const response = await apiClient.post('/categories', category)
+    const response = await api.post('/categories', category)
     return response.data
   },
   
   update: async (id, category) => {
-    const response = await apiClient.put(`/categories/${id}`, category)
+    const response = await api.put(`/categories/update?Id=${id}`, category)
     return response.data
   },
   
   delete: async (id) => {
-    await apiClient.delete(`/categories/${id}`)
+    await api.delete(`/categories/${id}`)
     return true
   }
 }

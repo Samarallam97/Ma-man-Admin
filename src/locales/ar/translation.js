@@ -96,5 +96,10 @@ export default {
   
   // Not Found
   "notFound": "الصفحة غير موجودة",
-  "notFoundMessage": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
+  "notFoundMessage": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+
+  "pictureUrl": "صورة",
+  "required": "هذا الحقل مطلوب",
+  "invalidImage": "يرجى تحميل ملف صورة صالح"
+
 }

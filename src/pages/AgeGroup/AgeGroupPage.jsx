@@ -5,35 +5,35 @@ import toast from 'react-hot-toast'
 import PageHeader from '../../components/common/PageHeader'
 import DataTable from '../../components/common/DataTable'
 import ConfirmDialog from '../../components/common/ConfirmDialog'
-import { categoryService } from '../../api/services/categoryService'
+import { ageGroupService } from '../../api/services/ageGroupService.js'
 
-const CategoryPage = () => {
+const AgeGroupPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [categories, setCategories] = useState([])
+  const [ageGroups, setAgeGroups] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [deleteDialog, setDeleteDialog] = useState({ isOpen: false, id: null })
   
-  const fetchCategories = async () => {
+  const fetchAgeGroups = async () => {
     try {
       setIsLoading(true)
-      const response = await categoryService.getAll()
+      const response = await ageGroupService.getAll()
       const data = response.data
       
-      setCategories(data)
+      setAgeGroups(data)
     } catch (error) {
-      console.error('Error fetching categories:', error)
+      console.error('Error fetching ageGroups:', error)
     } finally {
       setIsLoading(false)
     }
   }
   
   useEffect(() => {
-    fetchCategories()
+    fetchAgeGroups()
   }, [])
   
   const handleEdit = (id) => {
-    navigate(`/category/edit/${id}`)
+    navigate(`/ageGroup/edit/${id}`)
   }
   
   const handleDeleteClick = (id) => {
@@ -42,11 +42,11 @@ const CategoryPage = () => {
   
   const handleDeleteConfirm = async () => {
     try {
-      await categoryService.delete(deleteDialog.id)
-      await fetchCategories() // Refresh data
+      await ageGroupService.delete(deleteDialog.id)
+      await fetchAgeGroups() // Refresh data
       toast.success(t('successDelete'))
     } catch (error) {
-      console.error('Error deleting category:', error)
+      console.error('Error deleting ageGroup:', error)
       toast.error(t('error'))
     } finally {
       setDeleteDialog({ isOpen: false, id: null })
@@ -60,26 +60,21 @@ const CategoryPage = () => {
   
   // Table columns
   const columns = [
-    { key: 'id', header: 'id' },
     { key: 'name', header: 'name' },
-    { key: 'nameAR', header: 'nameAR' },
-    { key: 'description', header: 'description' },
-    { key: 'descriptionAR', header: 'descriptionAR' },
-    { key: 'picutureUrl', header: 'picutureUrl' },
-    { key: 'createdByAdminId', header: 'createdByAdminId' },
+    { key: 'nameAr', header: 'nameAr' },
     { key: 'color', header: 'color' }
   ]
   
   return (
     <div>
       <PageHeader 
-        title={t('categoryManagement')} 
-        actionLabel="addCategory"
-        actionPath="/category/add"
+        title={t('ageGroupManagement')} 
+        actionLabel="addAgeGroup"
+        actionPath="/ageGroup/add"
       />
       
       <DataTable
-        data={categories}
+        data={ageGroups}
         columns={columns}
         onEdit={handleEdit}
         onDelete={handleDeleteClick}
@@ -97,4 +92,4 @@ const CategoryPage = () => {
   )
 }
 
-export default CategoryPage
+export default AgeGroupPage
